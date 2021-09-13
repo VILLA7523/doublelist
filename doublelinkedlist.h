@@ -9,7 +9,7 @@ class DoubleList {
             T data;
             Node *prev;
             Node *next;
-            Node(const T & d = T{} , Node *p = nullptr  , Node *n = nullptr):data{},prev{p},next{n} {}
+            Node(const T & d = T{} , Node *p = nullptr  , Node *n = nullptr):data{d},prev{p},next{n} {}
             Node(T && d , Node *p = nullptr , Node *n = nullptr):data{std::move(d)},prev{p},next{n} {}
        };
        
@@ -122,12 +122,12 @@ class DoubleList {
             return size() == 0;
         }
 
-        void clear () {
+        /*void clear () {
             while (!empty) 
             {
                 pop_front();
             }
-        }
+        }*/
 
         T & front () 
         {
@@ -149,14 +149,59 @@ class DoubleList {
             return *(--end());
         }
 
+        /*funciones*/
 
- 
-    
-        
+        void Begin() {
+            if(size!=0){
+                pActual = head->next; 
+            }
+        }
+
+        void Last() {
+            if(size!=0){
+                pActual = tail->prev;
+            }
+        }
+
+        void Next() {
+            if(size != 0 && pActual != nullptr){
+                pActual = pActual->next;
+            }
+        }
+
+        void Previus() {
+            if(size != 0 && pActual != nullptr){
+                pActual = pActual->prev;
+            }
+        }
+
+        T GetGato() {
+            if(pActual!=nullptr){
+               return pActual->dato;
+           }
+        }
+
+        void printBN() {
+            this->Begin();
+            while(pActual!=nullptr) {
+                std::cout<<pActual->data<<"->";
+                this->Next();
+            }
+        }
+
+        void printLP() {
+            this->Last();
+            std::cout<<pActual->data;
+            while(pActual!=nullptr) {
+                std::cout<<pActual->data<<"->";
+                this->Previus();
+            }
+        }
 
     private:
         Node *head;
         Node *tail;
+        Node *pActual;
         int size;
 };
 
