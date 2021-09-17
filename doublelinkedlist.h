@@ -1,9 +1,9 @@
 #ifndef __DOUBLELINKEDLIST_H__
 #define __DOUBLELINKEDLIST_H__
-
+using namespace std;
 template<typename T>
 class DoubleList {
-    private:
+    public:
        class Node {
            public:
             T data;
@@ -13,7 +13,7 @@ class DoubleList {
             Node(T && d , Node *p = nullptr , Node *n = nullptr):data{std::move(d)},prev{p},next{n} {}
        };
        
-    public:
+    
         class iterator {
             public:
                 iterator() : it(nullptr) {} //CONSTRUCCION DE ITERATOR
@@ -119,7 +119,9 @@ class DoubleList {
         }
 
         bool empty() {
-            return size() == 0;
+              if(size != 0)
+               return false;
+            return true;
         }
 
         /*void clear () {
@@ -149,38 +151,149 @@ class DoubleList {
             return *(--end());
         }
 
-        /*funciones*/
+        
 
+
+        
+        void insert(T elem_,int pos){  
+                Node *new_node= new Node(elem_);  
+                Node *temp=head;  
+                if (!head->data) {              
+                    head = new_node;
+                    tail = new_node;
+                    size++;
+                } 
+                else{
+                    while(temp->next != nullptr)
+                        temp=temp->next;  
+                    temp->next=new_node; 
+                    new_node->prev=temp;
+                    tail= new_node;  
+                    size++;
+            }
+        }
+        void print(){
+            Node *recorre= head;
+            if(head==NULL){
+                cout<<"Lista vacia"<<endl;
+            }
+            else{
+                while(recorre!=NULL){
+                    cout<<recorre->data<<" ";   
+                    recorre=recorre->next; 
+                }
+                cout<<endl;
+            }
+        }
+
+        /*FUNCIONES*/
+        //1. Implementar una función maximo de manera iterativa.
+        void maximo_Iterativa(){ 
+            Node *temp= head;
+            int max=0;
+            for(int i=0;i<size;i++){
+                
+                if (temp->data>max){
+                    max=temp->data;
+                }
+                temp=temp->next;
+            }
+            cout<<"El valor maximo de la lista es : "<< max;
+            cout<<endl;
+        }
+
+        //2. Implementar una función maximo de forma recursiva.
+
+        //3. Implementar una función recursiva que imprima los datos de inicio a fin.
+        void print_Recursiva_I_F(Node* temp){ 
+            if (temp==nullptr){
+                return ; 
+            }
+            else{
+                cout<< temp->data<<"  "; 
+        
+                print_Recursiva_I_F( temp->next);
+            }
+            
+        }
+        //4. Implementar una función recursiva que imprima los datos de fin a inicio.
+        
+        //5. Implementar una función iterativa que imprima los datos de fin a inicio.
+        void print_Iterativa_F_I(){ 
+            Node *temp= tail;
+            for(int i=size;i>0;i--){
+                cout<<temp->data<<" ";   //recorre la lista e imprime sus elementos
+                temp=temp->prev;
+            }
+            cout<<endl;
+
+        }
+        //6. Implementar una función que cuente el número de elementos pares.  ́
+        
+        
+        //7. Implementar una función que ordene los datos de forma ascendente.
+        void ordenar_Ascendente(){ 
+            Node *temp= head;
+            Node *aux;
+            T elem_;
+            while (temp->next!=nullptr){
+                aux=temp->next;
+                while (aux){
+                    if (aux->data <temp->data){
+                        elem_=temp->data;
+                        temp->data=aux->data;
+                        aux->data=elem_;
+                    }
+                    aux=aux->next;
+                }
+                temp=temp->next;
+                
+            }
+            
+        }
+
+        //8. Implementar una función que ordene los datos de forma descendente.
+
+
+        //9. Añadir un miembro dato/variable a la lista denominado pActual (puntero a nodo) y crear
+        //las siguientes funciones:
+        //10. void Begin() que coloca el puntero pActual a la cabeza de la lista.
         void Begin() {
             if(size!=0){
                 pActual = head->next; 
             }
         }
-
+        
+        //11. void Last() que coloca el puntero pActual a al final de la lista.
         void Last() {
             if(size!=0){
                 pActual = tail->prev;
             }
         }
-
+        
+        //12. void Next() que mueve el puntero pActual al siguiente nodo.
         void Next() {
             if(size != 0 && pActual != nullptr){
                 pActual = pActual->next;
             }
         }
-
+        
+        //13. void Previus() que mueve el puntero pActual al nodo anterior.
         void Previus() {
             if(size != 0 && pActual != nullptr){
                 pActual = pActual->prev;
             }
         }
-
+        
+        //14. T GetDato() que retorna el dato apuntado por pActual.
         T GetGato() {
             if(pActual!=nullptr){
                return pActual->dato;
            }
         }
-
+        
+        //15. Usando las funciones, Begin y Next implemente una función para imprimir los datas de
+        //la lista.
         void printBN() {
             this->Begin();
             while(pActual!=nullptr) {
@@ -188,7 +301,9 @@ class DoubleList {
                 this->Next();
             }
         }
-
+        
+        //16. Usando las funciones, Last y Previus implemente una función para imprimir los datas de
+        //la lista.
         void printLP() {
             this->Last();
             std::cout<<pActual->data;
@@ -197,6 +312,28 @@ class DoubleList {
                 this->Previus();
             }
         }
+        
+        
+
+        
+
+      
+
+        
+
+        
+
+        
+        
+
+        
+
+        
+
+        
+        
+        
+        Node* getHead(){ return head; }
 
     private:
         Node *head;
