@@ -217,7 +217,7 @@ class DoubleList {
         }
 
         /*insertar y eliminar con la clase itereator*/
-         iterator insert(const T & value , iterator it) 
+        iterator insert(const T & value , iterator it) 
         {
             Node * aux = it.cit;
             size++;
@@ -295,11 +295,15 @@ class DoubleList {
                 }
                 temp=temp->next;
             }
-            cout<<"El valor maximo de la lista es : "<< max;
+            cout<<"Método Iterativo - El valor maximo de la lista es : "<< max;
             cout<<endl;
         }
 
         //2. Implementar una función maximo de forma recursiva.
+        T maximo_Recursivo(T max, int _i){ 
+            return max;
+           
+        }
 
         //3. Implementar una función recursiva que imprima los datos de inicio a fin.
         void print_Recursiva_I_F(Node* temp){ 
@@ -313,13 +317,25 @@ class DoubleList {
         }
 
         void printRIF(){
-            if(size!=0){
-               print_Recursiva_I_F(head->next);
+            if (size!=0){
+               print_Recursiva_I_F(head);
             }
         }
 
         //4. Implementar una función recursiva que imprima los datos de fin a inicio.
-        
+
+        void print_Recursivo_F_I (Node* _elem) {
+            if (_elem != nullptr){
+                cout<< _elem->data <<"  ";
+                print_Recursivo_F_I(_elem->prev);
+            }
+        }
+        void printRFI(){
+            if (size!=0){
+               print_Recursivo_F_I(tail);
+            }
+        }
+
         //5. Implementar una función iterativa que imprima los datos de fin a inicio.
         void print_Iterativa_F_I(){ 
             Node *temp= tail;
@@ -331,7 +347,16 @@ class DoubleList {
 
         }
         //6. Implementar una función que cuente el número de elementos pares.  ́
-        
+        size_t count_even () {
+            Node *temp= head;
+            size_t i = 0;
+            while (temp) {
+                if ((temp->data)%2 == 0)
+                    i++;
+                temp = temp->next;
+            }
+            return i;
+        } 
         
         //7. Implementar una función que ordene los datos de forma ascendente.
         //BUBBLE METHOD
@@ -342,7 +367,7 @@ class DoubleList {
             while (temp->next!=nullptr){
                 aux=temp->next;
                 while (aux){
-                    if (aux->data <temp->data){
+                    if (aux->data < temp->data){
                         elem_=temp->data;
                         temp->data=aux->data;
                         aux->data=elem_;
@@ -390,6 +415,26 @@ class DoubleList {
         }
 
         //8. Implementar una función que ordene los datos de forma descendente.
+        void ordenar_Descendente(){ 
+            Node *temp= head;
+            Node *aux = nullptr;
+            T elem_;
+            while (temp->next){
+                aux = temp->next;
+                while (aux){
+                    if (aux->data > temp->data){
+                        elem_ = temp->data;
+                        temp->data = aux->data;
+                        aux->data = elem_;
+                    }
+                    aux = aux->next;
+                    // cout << "\t aux: "<< aux;
+                }
+                temp=temp->next;
+                // cout << "\t temp: "<< temp;
+            }
+            
+        }
 
 
         //9. Añadir un miembro dato/variable a la lista denominado pActual (puntero a nodo) y crear
