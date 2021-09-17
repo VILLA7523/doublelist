@@ -251,7 +251,7 @@ class DoubleList {
             return it;
         }
 
-        void insert(T elem_,int pos){  
+        void insert(T elem_){  
                 Node *new_node= new Node(elem_);  
                 Node *temp=head;  
                 if (!head->data) {              
@@ -304,14 +304,20 @@ class DoubleList {
         //3. Implementar una función recursiva que imprima los datos de inicio a fin.
         void print_Recursiva_I_F(Node* temp){ 
             if (temp==nullptr){
-                return ; 
+                return; 
             }
             else{
                 cout<< temp->data<<"  "; 
                 print_Recursiva_I_F( temp->next);
             }
-            
         }
+
+        void printRIF(){
+            if(size!=0){
+               print_Recursiva_I_F(head->next);
+            }
+        }
+
         //4. Implementar una función recursiva que imprima los datos de fin a inicio.
         
         //5. Implementar una función iterativa que imprima los datos de fin a inicio.
@@ -328,6 +334,7 @@ class DoubleList {
         
         
         //7. Implementar una función que ordene los datos de forma ascendente.
+        //BUBBLE METHOD
         void ordenar_Ascendente(){ 
             Node *temp= head;
             Node *aux;
@@ -343,9 +350,43 @@ class DoubleList {
                     aux=aux->next;
                 }
                 temp=temp->next;
-                
             }
             
+        }
+
+        //QUICKSORT
+        void sort() {
+            if(size!=0){
+               quicksort(head->next,tail->prev);
+            }
+        }
+
+        void quicksort(Node * imin , Node * imax) {
+            if(imin->prev == imax) return;
+            Node * k = pivote(imin , imax);
+            quicksort(imin , k->prev);
+            quicksort(k->next , imax);
+        }
+
+        void intercambiar(Node * imin , Node * imax) {
+            T d = imin->data;
+            imin->data = imax->data;
+            imax->data = d;
+        }
+
+        Node * pivote(Node * imin , Node * imax){
+            Node * ipiv = imin;
+            Node * isec = imin->next;
+            while(isec != tail){
+                if(isec->data <= ipiv->data) {
+                    intercambiar(isec,ipiv);
+                    isec = ipiv->next;
+                }else {
+                    isec = isec->next;
+                }
+            }
+
+            return ipiv;
         }
 
         //8. Implementar una función que ordene los datos de forma descendente.
@@ -353,6 +394,8 @@ class DoubleList {
 
         //9. Añadir un miembro dato/variable a la lista denominado pActual (puntero a nodo) y crear
         //las siguientes funciones:
+
+
         //10. void Begin() que coloca el puntero pActual a la cabeza de la lista.
         void Begin() {
             if(size!=0){
@@ -409,7 +452,6 @@ class DoubleList {
             }
         }
 
-        Node* getHead(){ return head; }
 
     private:
         Node *head;

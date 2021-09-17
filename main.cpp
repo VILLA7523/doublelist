@@ -5,11 +5,12 @@ using namespace std;
 
 int main() {
     DoubleList<int> l;
-    l.insert(9,0);
-    l.insert(11,0);
-    l.insert(1,0);
-    l.insert(51,0);
-    l.insert(21,0);
+    l.insert(9);
+    l.insert(20);
+    l.insert(12);
+    l.insert(13);
+    l.insert(46);
+    l.insert(19);
     cout<<"Imprimiendo datos de la lista doble"<<endl;
     l.print();
     cout<<endl;
@@ -18,9 +19,10 @@ int main() {
     l.maximo_Iterativa();
 
     //2. Implementar una función maximo de forma recursiva.
+
     //3. Implementar una función recursiva que imprima los datos de inicio a fin.
     cout<<"Imprimiendo datos de forma recursiva INICIO-FIN "<<endl;
-    l.print_Recursiva_I_F(l.getHead());
+    l.printRIF();
     cout<<endl;
 
     //4. Implementar una función recursiva que imprima los datos de fin a inicio.
@@ -32,9 +34,6 @@ int main() {
     //7. Implementar una función que ordene los datos de forma ascendente.
     cout<<"Imprimiendo datos de forma ORDENADA ASCENDENTE "<<endl;
     l.ordenar_Ascendente();
-    l.pop_back();
-    l.pop_back();
-    l.pop_front();
     l.print();
     //8. Implementar una función que ordene los datos de forma descendente.
 
