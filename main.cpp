@@ -32,13 +32,12 @@ int main() {
     //7. Implementar una función que ordene los datos de forma ascendente.
     cout<<"Imprimiendo datos de forma ORDENADA ASCENDENTE "<<endl;
     l.ordenar_Ascendente();
+    l.pop_back();
+    l.pop_back();
+    l.pop_front();
     l.print();
     //8. Implementar una función que ordene los datos de forma descendente.
 
 
-    
-    
-    
-    
     return 0;
 }

@@ -3,7 +3,7 @@
 using namespace std;
 template<typename T>
 class DoubleList {
-    public:
+    private:
        class Node {
            public:
             T data;
@@ -13,46 +13,83 @@ class DoubleList {
             Node(T && d , Node *p = nullptr , Node *n = nullptr):data{std::move(d)},prev{p},next{n} {}
        };
        
-    
-        class iterator {
+    public:
+        class citerator {
             public:
-                iterator() : it(nullptr) {} //CONSTRUCCION DE ITERATOR
+                citerator() : cit(nullptr) {}
 
-                T & operator * () const{
-                    return it->data;
+                const T & operator * () const{
+                    return this->indireccion();
                 }
 
-                iterator & operator ++ () {
-                    it = it->next;
-                    return *this;
+                citerator & operator++() {
+                    return *this->next;
                 }
 
-                iterator operator ++(int) {
-                    iterator aux = *this;
+                citerator operator++(int) {
+                    citerator *aux = *this;
                     ++(*this);
                     return aux;
                 }
 
-                iterator & operator -- () {
-                    it = it->prev;
+                citerator & operator--() {
+                    cit = cit->prev; 
                     return *this;
                 }
 
-                iterator operator -- (int) {
-                    iterator aux = *this;
+                citerator operator--(int) {
+                    Node *aux = this->cit;
                     --(*this);
                     return aux;
                 }
 
-                bool operator == ( const iterator & rhs ) const
-                { return it == rhs.it; }
-                bool operator != ( const iterator & rhs ) const
-                { return !( *this == rhs ); }
+            protected:
+                Node *cit;
+                citerator(Node *p):cit{p} {}
+                T & indireccion( ) const { return cit->data; } 
+                friend class DoubleList <T>;
+                
+        };
 
+        class iterator: public citerator{
+            public:
+                iterator() {}
+
+                T & operator * () 
+                {
+                    return citerator::indireccion();
+                }
+
+                const T & operator *() const
+                {
+                    return citerator::operator*();
+                }
+                
+                iterator & operator ++ () 
+                {
+                    return *this->next;
+                }
+
+                iterator operator ++(int) 
+                {
+                    iterator *aux = *this;
+                    ++(*this);
+                    return aux;
+                }
+
+                iterator & operator--() {
+                    this->cit = this->cit->prev; 
+                    return *this;
+                }
+
+                iterator operator --(int) {
+                    Node *aux = this->cit;
+                    --(*this);
+                    return aux;
+                }
 
             protected:
-                Node *it;
-                iterator(Node *p):it{p} {}
+                iterator(Node *p): citerator{p} {}
                 friend class DoubleList <T>;
                 
         };
@@ -105,7 +142,7 @@ class DoubleList {
 
         ~DoubleList ()
         {
-            //clear();
+            clear();
             delete head;
             delete tail;
         }
@@ -119,17 +156,15 @@ class DoubleList {
         }
 
         bool empty() {
-              if(size != 0)
-               return false;
-            return true;
+            return size == 0;
         }
 
-        /*void clear () {
-            while (!empty) 
+        void clear () {
+            while (!empty()) 
             {
                 pop_front();
             }
-        }*/
+        }
 
         T & front () 
         {
@@ -151,10 +186,71 @@ class DoubleList {
             return *(--end());
         }
 
-        
+        int tam () const{
+            return this->size;
+        }
 
+        void push_front(const T & value){
+            insert(value,begin());   
+        }
 
+        void push_back(const T & value){
+            insert(value,end());
+        }
+
+        void push_front(T && value){
+            insert(value,begin());   
+        }
+
+        void push_back(T && value){
+            insert(value,end());
+        }
+
+        void pop_front()
+        {
+            erase(begin());
+        }
+
+        void pop_back()
+        {
+            erase(--end());
+        }
+
+        /*insertar y eliminar con la clase itereator*/
+         iterator insert(const T & value , iterator it) 
+        {
+            Node * aux = it.cit;
+            size++;
+            Node * newnode = new Node(value,aux->prev,aux);
+            newnode->prev->next = newnode;
+            aux->prev = newnode;
+            return it;
+        }
         
+        iterator insert(T && value , iterator it)
+        {
+            Node * aux = it.cit;
+            size++;
+            Node * newnode = new Node(std::move(value),aux->prev,aux);
+            newnode->prev->next = newnode;
+            aux->prev = newnode;
+            return it;
+        }
+
+        iterator erase(iterator it) 
+        {
+            if(head->next!=0) {
+                Node *aux = it.cit;
+                iterator r {aux->next};
+                aux->prev->next = aux->next;
+                aux->next->prev = aux->prev; 
+                delete aux;
+                size--;
+                return r;
+            }
+            return it;
+        }
+
         void insert(T elem_,int pos){  
                 Node *new_node= new Node(elem_);  
                 Node *temp=head;  
@@ -172,6 +268,7 @@ class DoubleList {
                     size++;
             }
         }
+
         void print(){
             Node *recorre= head;
             if(head==NULL){
@@ -211,7 +308,6 @@ class DoubleList {
             }
             else{
                 cout<< temp->data<<"  "; 
-        
                 print_Recursiva_I_F( temp->next);
             }
             
@@ -312,27 +408,7 @@ class DoubleList {
                 this->Previus();
             }
         }
-        
-        
 
-        
-
-      
-
-        
-
-        
-
-        
-        
-
-        
-
-        
-
-        
-        
-        
         Node* getHead(){ return head; }
 
     private:
@@ -340,6 +416,7 @@ class DoubleList {
         Node *tail;
         Node *pActual;
         int size;
+        
 };
 
 #endif
