@@ -556,7 +556,6 @@ class DoubleList {
             if(tmp == nullptr) return false;
             if(tmp->data==value) return true;
             find_recursivo(tmp->next,value);
-            return false;
         }
 
         bool findR(const T & value) {
