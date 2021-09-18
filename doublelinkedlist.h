@@ -373,13 +373,13 @@ class DoubleList {
             Node *temp = head->next;
             Node *aux = nullptr;
             T elem_;
-            while (temp->next){ 
+            while (temp->next->next){ 
                 aux = temp->next; 
-                while (aux){ 
+                while (aux->next){ 
                     if (aux->data < temp->data){ 
                         elem_ = temp->data;
                         temp->data = aux->data; 
-                        aux->data = elem_;      
+                        aux->data = elem_;     
                     }
                     aux = aux->next;
                 }
