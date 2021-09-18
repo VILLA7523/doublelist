@@ -266,7 +266,7 @@ class DoubleList {
             }            
         }
         void erase (int pos){
-            if(pos < size && head->next!=0){ 
+            if(pos <= size && head->next!=0){ 
                 int a = 1;
                 Node * aux = head->next;
                 while(a!=pos){
@@ -404,7 +404,7 @@ class DoubleList {
         }
 
         void quicksort(Node * imin , Node * imax) {
-            if(imin->prev == imax) return;
+            if(imin->prev == imax || imin == imax) return;
             Node * k = pivote(imin , imax);
             quicksort(imin , k->prev);
             quicksort(k->next , imax);
@@ -418,18 +418,23 @@ class DoubleList {
 
         Node * pivote(Node * imin , Node * imax){
             Node * ipiv = imin;
-            Node * isec = imin->next;
-            while(isec != tail){
-                if(isec->data <= ipiv->data) {
-                    intercambiar(isec,ipiv);
-                    isec = ipiv->next;
-                }else {
-                    isec = isec->next;
+            Node * amin  = imin;
+            Node * amax  = imax;
+
+            while(amin != amax || amin->prev == amax){
+                while(amax->data >= amin->data && amin != amax || amin->prev == amax) {
+                    amax = amax->prev;
                 }
+                intercambiar(amax,amin);
+                while(amin->data <= amax->data && amin != amax || amin->prev == amax) {
+                    amin = amin->next;
+                }
+                intercambiar(amin,amax);
             }
 
-            return ipiv;
+            return amin;
         }
+
 
         //8. Implementar una función que ordene los datos de forma descendente.
         void ordenar_Descendente(){ 
@@ -458,7 +463,7 @@ class DoubleList {
         }
 
         void quicksortD(Node * imin , Node * imax) {
-            if(imin->prev == imax) return;
+            if(imin->prev == imax || imin == imax) return;
             Node * k = pivoteD(imin , imax);
             quicksortD(imin , k->prev);
             quicksortD(k->next , imax);
@@ -466,17 +471,21 @@ class DoubleList {
 
         Node * pivoteD(Node * imin , Node * imax){
             Node * ipiv = imin;
-            Node * isec = imin->next;
-            while(isec != tail){
-                if(isec->data >= ipiv->data) {
-                    intercambiar(isec,ipiv);
-                    isec = ipiv->next;
-                }else {
-                    isec = isec->next;
+            Node * amin  = imin;
+            Node * amax  = imax;
+
+            while(amin != amax || amin->prev == amax){
+                while(amax->data <= amin->data && amin != amax || amin->prev == amax) {
+                    amax = amax->prev;
                 }
+                intercambiar(amax,amin);
+                while(amin->data >= amax->data && amin != amax || amin->prev == amax) {
+                    amin = amin->next;
+                }
+                intercambiar(amin,amax);
             }
 
-            return ipiv;
+            return amin;
         }
 
 

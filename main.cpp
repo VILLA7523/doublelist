@@ -11,8 +11,17 @@ int main() {
     l.push_back(13);
     l.push_back(46);
     l.push_back(19);
+    l.push_back(9);
+    l.push_back(20);
+    l.push_back(12);
+    l.push_back(13);
+    l.push_back(46);
+    l.push_back(19);
     l.push_front(-5);
-    l.insert(4,4);
+    l.insert(13,1);
+    l.insert(20,5);
+    l.insert(19,9);
+    l.insert(-5,7);
     cout<<"Imprimiendo datos de la lista doble"<<endl;
     l.print();
     cout<<endl;
@@ -45,16 +54,16 @@ int main() {
 
     //7. Implementar una función que ordene los datos de forma ascendente.
     cout<<"7) Imprimiendo datos de forma ORDENADA ASCENDENTE "<<endl;
-    l.ordenar_Ascendente(); //ordenando por el metodo bubble sort
     l.sort(); //ordenando por el metodo metodo quicksort
+    l.ordenar_Ascendente(); //ordenando por el metodo bubble sort
     l.print(); //imprimiendo de inicio a fin 
     cout<<endl;
 
     //8. Implementar una función que ordene los datos de forma descendente.
     cout<<"8) Imprimiendo datos de forma ORDENADA DESCENDENTE "<<endl;
-     //ordenando por el metodo bubble sort
+    //ordenando por el metodo bubble sort
     l.sortD(); //ordenando por el metodo metodo quicksort
-    l.ordenar_Descendente();
+    l.ordenar_Descendente(); //ordenando por el metodo bubble sort
     l.print(); //imprimiendo de inicio a fin 
     cout<<endl;
 
@@ -70,7 +79,7 @@ int main() {
     l.printLP();
     cout<<endl<<endl;
 
-    l.erase(4);
+    l.erase(17);
     l.pop_back();
     l.pop_front();
 
