@@ -251,33 +251,44 @@ class DoubleList {
             return it;
         }
 
-        void insert(T elem_){  
-                Node *new_node= new Node(elem_);  
-                Node *temp=head;  
-                if (!head->data) {              
-                    head = new_node;
-                    tail = new_node;
-                    size++;
-                } 
-                else{
-                    while(temp->next != nullptr)
-                        temp=temp->next;  
-                    temp->next=new_node; 
-                    new_node->prev=temp;
-                    tail= new_node;  
-                    size++;
-            }
+        void insert (const T & value , int pos){
+            if(pos < size){ 
+                int a = 1;
+                Node * aux = head->next;
+                while(a!=pos){
+                    a++;
+                    aux = aux->next;
+                }
+                size++;
+                Node * newnode = new Node(value,aux->prev,aux);
+                newnode->prev->next = newnode;
+                aux->prev = newnode;  
+            }            
+        }
+        void erase (int pos){
+            if(pos < size && head->next!=0){ 
+                int a = 1;
+                Node * aux = head->next;
+                while(a!=pos){
+                    a++;
+                    aux = aux->next;
+                }
+                aux->prev->next = aux->next;
+                aux->next->prev = aux->prev; 
+                delete aux;
+                size--;  
+            }            
         }
 
         void print(){
-            Node *recorre= head->next;
-            if(head->next==NULL){
+            Node *recorre = head->next;
+            if(head->next == nullptr){
                 cout<<"Lista vacia"<<endl;
             }
             else{
                 while(recorre!=tail){
-                    cout<<recorre->data<<" ";   
-                    recorre=recorre->next; 
+                    cout<<recorre->data<<"  ";   
+                    recorre = recorre->next; 
                 }
                 cout<<endl;
             }
@@ -286,24 +297,35 @@ class DoubleList {
         /*FUNCIONES*/
         //1. Implementar una función maximo de manera iterativa.
         void maximo_Iterativa(){ 
-            Node *temp= head;
-            int max=0;
+            if(size!=0) {
+                Node *temp= head->next;
+                int max=0;
             for(int i=0;i<size;i++){
-                
-                if (temp->data>max){
+                if (temp->data>max)
                     max=temp->data;
-                }
                 temp=temp->next;
             }
-            cout<<"El valor maximo de la lista es : "<< max;
-            cout<<endl;
+            cout<<"Imprimiendo el valor maximo de la lista (Metodo Iterativo):\n"<< max <<endl;
+            }
         }
 
         //2. Implementar una función maximo de forma recursiva.
+        int maximo_Recursivo( Node* _pActual, int max) { 
+            if(_pActual == nullptr)
+                return max;
+            else if( _pActual->data > max) 
+                    max = _pActual->data;
+            return maximo_Recursivo(_pActual->next, max);
+        }
+            // El valor máx inicial es el valor del 1er nodo. Se compara con el valor del sgte nodo(_pActual).
+            void print_MaxRecursivo() {
+                int res = maximo_Recursivo(this->head->next, this->head->data);
+                cout<<"Imprimiendo el valor maximo de la lista (Método Recursivo):\n"<< res <<endl;   
+            }
 
         //3. Implementar una función recursiva que imprima los datos de inicio a fin.
         void print_Recursiva_I_F(Node* temp){ 
-            if (temp==nullptr){
+            if (temp->next==nullptr){
                 return; 
             }
             else{
@@ -313,45 +335,65 @@ class DoubleList {
         }
 
         void printRIF(){
-            if(size!=0){
+            if (size!=0){
                print_Recursiva_I_F(head->next);
             }
         }
 
         //4. Implementar una función recursiva que imprima los datos de fin a inicio.
-        
+        void print_Recursivo_F_I (Node* _elem) {
+            if (_elem->prev != nullptr) {
+                cout<< _elem->data <<"  ";
+                print_Recursivo_F_I(_elem->prev);
+            }
+        }
+
+        void printRFI(){
+            if (size!=0){
+               print_Recursivo_F_I(tail->prev);
+            }
+        }
+
         //5. Implementar una función iterativa que imprima los datos de fin a inicio.
         void print_Iterativa_F_I(){ 
-            Node *temp= tail;
+            Node *temp = tail->prev;
             for(int i=size;i>0;i--){
-                cout<<temp->data<<" ";   //recorre la lista e imprime sus elementos
+                cout<<temp->data<<"  ";   //recorre la lista e imprime sus elementos
                 temp=temp->prev;
             }
             cout<<endl;
 
         }
         //6. Implementar una función que cuente el número de elementos pares.  ́
-        
+        size_t count_even () {
+            Node *temp= head->next;
+            size_t i = 0;
+            while (temp->next) {
+                if ((temp->data)%2 == 0)
+                    i++;
+                temp = temp->next;
+            }
+            return i;
+        } 
         
         //7. Implementar una función que ordene los datos de forma ascendente.
         //BUBBLE METHOD
         void ordenar_Ascendente(){ 
             Node *temp= head->next;
-            Node *aux;
+            Node *aux = nullptr;
             T elem_;
-            while (temp->next!=tail){
+            while (temp->next){
                 aux=temp->next;
-                while (aux){
-                    if (aux->data <temp->data){
+                while (aux!=tail){
+                    if (aux->data < temp->data){
                         elem_=temp->data;
                         temp->data=aux->data;
                         aux->data=elem_;
                     }
-                    aux=aux->next;
+                    aux = aux->next;
                 }
-                temp=temp->next;
+                temp = temp->next;
             }
-            
         }
 
         //QUICKSORT
@@ -390,10 +432,57 @@ class DoubleList {
         }
 
         //8. Implementar una función que ordene los datos de forma descendente.
+        void ordenar_Descendente(){ 
+            Node *temp = head->next;
+            Node *aux = nullptr;
+            T elem_;
+            while (temp->next){
+                aux = temp->next;
+                while (aux!=tail){
+                    if (aux->data > temp->data){
+                        elem_ = temp->data;
+                        temp->data = aux->data;
+                        aux->data = elem_;
+                    }
+                    aux = aux->next;
+                }
+                temp=temp->next;
+            }
+            
+        }
+        //QUICKSORT
+        void sortD() {
+            if(size!=0){
+               quicksortD(head->next,tail->prev);
+            }
+        }
+
+        void quicksortD(Node * imin , Node * imax) {
+            if(imin->prev == imax) return;
+            Node * k = pivoteD(imin , imax);
+            quicksortD(imin , k->prev);
+            quicksortD(k->next , imax);
+        }
+
+        Node * pivoteD(Node * imin , Node * imax){
+            Node * ipiv = imin;
+            Node * isec = imin->next;
+            while(isec != tail){
+                if(isec->data >= ipiv->data) {
+                    intercambiar(isec,ipiv);
+                    isec = ipiv->next;
+                }else {
+                    isec = isec->next;
+                }
+            }
+
+            return ipiv;
+        }
 
 
         //9. Añadir un miembro dato/variable a la lista denominado pActual (puntero a nodo) y crear
-        //las siguientes funciones:
+        //las siguientes funciones: 
+           //linea 493
 
 
         //10. void Begin() que coloca el puntero pActual a la cabeza de la lista.
@@ -435,8 +524,8 @@ class DoubleList {
         //la lista.
         void printBN() {
             this->Begin();
-            while(pActual!=nullptr) {
-                std::cout<<pActual->data<<"->";
+            while(size != 0 && pActual!=tail) {
+                std::cout<<pActual->data<<"  ";
                 this->Next();
             }
         }
@@ -445,13 +534,34 @@ class DoubleList {
         //la lista.
         void printLP() {
             this->Last();
-            std::cout<<pActual->data;
-            while(pActual!=nullptr) {
-                std::cout<<pActual->data<<"->";
+            while(size != 0 && pActual!=head) {
+                std::cout<<pActual->data<<"  ";
                 this->Previus();
             }
         }
 
+        //lab-1
+        bool find(const T & value){
+            if(size!=0){
+                Node * tmp = this->head->next;
+                while(tmp!=tail && value != tmp->data) {
+                    tmp = tmp->next;
+                }
+                if(tmp != tail && tmp->data == value) return true;
+                else return false;
+            }
+        }
+
+        bool find_recursivo(Node * tmp , const T & value ) {
+            if(tmp == nullptr) return false;
+            if(tmp->data==value) return true;
+            find_recursivo(tmp->next,value);
+            return false;
+        }
+
+        bool findR(const T & value) {
+            find_recursivo(head->next,value);
+        }
 
     private:
         Node *head;
