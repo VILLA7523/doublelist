@@ -252,7 +252,7 @@ class DoubleList {
         }
 
         void insert (const T & value , int pos){
-            if(pos < size){ 
+            if(pos <= size){ 
                 int a = 1;
                 Node * aux = head->next;
                 while(a!=pos){
