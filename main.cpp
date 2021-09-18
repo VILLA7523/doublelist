@@ -5,12 +5,12 @@ using namespace std;
 
 int main() {
     DoubleList<int> l;
-    l.insert(9);
-    l.insert(20);
-    l.insert(12);
-    l.insert(13);
-    l.insert(46);
-    l.insert(19);
+    l.push_back(9);
+    l.push_back(20);
+    l.push_back(12);
+    l.push_back(13);
+    l.push_back(46);
+    l.push_back(19);
     cout<<"Imprimiendo datos de la lista doble"<<endl;
     l.print();
     cout<<endl;
@@ -36,6 +36,17 @@ int main() {
     l.ordenar_Ascendente();
     l.print();
     //8. Implementar una función que ordene los datos de forma descendente.
+
+    l.printBN();
+    cout<<endl;
+    //15 (10,12,9,14) Usando las funciones, Begin y Next implemente una función para imprimir los datas de
+    //la lista.
+      
+    l.printLP();  
+    //16 (11,13,9,14). Usando las funciones, Last y Previus implemente una función para imprimir los datas de
+    //la lista.
+       
+
 
 
     return 0;

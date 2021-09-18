@@ -217,7 +217,7 @@ class DoubleList {
         }
 
         /*insertar y eliminar con la clase itereator*/
-         iterator insert(const T & value , iterator it) 
+        iterator insert(const T & value , iterator it) 
         {
             Node * aux = it.cit;
             size++;
@@ -270,12 +270,12 @@ class DoubleList {
         }
 
         void print(){
-            Node *recorre= head;
-            if(head==NULL){
+            Node *recorre= head->next;
+            if(head->next==NULL){
                 cout<<"Lista vacia"<<endl;
             }
             else{
-                while(recorre!=NULL){
+                while(recorre!=tail){
                     cout<<recorre->data<<" ";   
                     recorre=recorre->next; 
                 }
@@ -336,10 +336,10 @@ class DoubleList {
         //7. Implementar una función que ordene los datos de forma ascendente.
         //BUBBLE METHOD
         void ordenar_Ascendente(){ 
-            Node *temp= head;
+            Node *temp= head->next;
             Node *aux;
             T elem_;
-            while (temp->next!=nullptr){
+            while (temp->next!=tail){
                 aux=temp->next;
                 while (aux){
                     if (aux->data <temp->data){
