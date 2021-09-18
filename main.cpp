@@ -14,16 +14,13 @@ int main() {
     cout<<"Imprimiendo datos de la lista doble"<<endl;
     l.print();
 
-    cout<<endl;
 
     //1. Implementar una función maximo de manera iterativa.
     l.maximo_Iterativa();
 
     //2. Implementar una función maximo de forma recursiva.
-    cout<<"Metodo Recursivo - El valor maximo de la lista es : ";
-    // l.maximo_Recursivo(l.get_head()->data, 0);
-    cout<<endl;
-    
+    l.print_MaxRecursivo();
+        
 
     //3. Implementar una función recursiva que imprima los datos de inicio a fin.
     cout<<"Imprimiendo datos de forma recursiva INICIO-FIN "<<endl;
@@ -45,8 +42,8 @@ int main() {
 
     //7. Implementar una función que ordene los datos de forma ascendente.
     cout<<"Imprimiendo datos de forma ORDENADA ASCENDENTE "<<endl;
-    // l.ordenar_Ascendente();
-    // l.print();
+    l.ordenar_Ascendente();
+    l.print();
 
     //8. Implementar una función que ordene los datos de forma descendente.
     cout<<"Imprimiendo datos de forma ORDENADA DESCENDENTE "<<endl;
